@@ -1,4 +1,4 @@
-package org.example.util;
+package org.example;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -33,8 +33,12 @@ public class Get_Config {
             InputStream inputStream = new FileInputStream(Path);
             Yaml yaml2 = new Yaml();
             Map<String, Object> data = yaml.load(inputStream);
+            if (data != null) {
             String elua = data.get(KeyWord).toString();
             return elua;
+            } else {
+                return null;
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
