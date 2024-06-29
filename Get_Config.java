@@ -1,7 +1,9 @@
-package org.example.Util;
+package org.example.util;
 
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -23,6 +25,19 @@ public class Get_Config {
         }
         return null;
 
+    }
+
+    public static String path_Yaml(String Path, String KeyWord) {
+        Yaml yaml = new Yaml();
+        try {
+            InputStream inputStream = new FileInputStream(Path);
+            Yaml yaml2 = new Yaml();
+            Map<String, Object> data = yaml.load(inputStream);
+            String elua = data.get(KeyWord).toString();
+            return elua;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main(String[] args) {
