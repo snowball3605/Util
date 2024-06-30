@@ -1,7 +1,5 @@
-package snow.main.util;
+package org.example;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.annotations.JsonAdapter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,7 +34,7 @@ public class resources_create {
         }
     }
 
-    private static JSONArray read(String Path) {
+    public static JSONArray read(String Path) {
         File file = new File(Path);
 
         if (!file.exists()) {
@@ -93,6 +91,31 @@ public class resources_create {
             return desiredObject.toString();
         } else {
             return "ERROR";
+        }
+    }
+
+    public static boolean write_and_createx2(String path, JSONArray json_content) {
+        try {
+            JSONArray jsonArray = read(path);
+            Path path1 = Paths.get(path);
+
+            if (path1.toFile().exists()) {
+                jsonArray.put(json_content);
+
+                try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(path))){
+                    fileWriter.write(jsonArray.toString());
+                    return true;
+                }
+            }
+            Files.createFile(path1);
+            try (FileWriter file_writer = new FileWriter(path1.toFile())) {
+                file_writer.write(json_content.toString());
+                return true;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
